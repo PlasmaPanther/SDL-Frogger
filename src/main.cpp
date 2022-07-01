@@ -22,7 +22,5 @@ int main(int argc, char* argv[]) {
 	game->DestroyInstance();
 	game = nullptr;
 
-	//detect_memory_leaks(true);
-
 	return 0;
 }
