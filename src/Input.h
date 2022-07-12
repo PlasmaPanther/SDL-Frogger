@@ -7,8 +7,9 @@ class Input
 public:
 
 	static bool Keydown(SDL_Scancode code);
+	static bool KeyPressed(SDL_Scancode code);
 
-	static void InputUpdate();
+	static void InputUpdate(const SDL_Event& e);
 
 	//===Experimental functions===//
 	static void MouseUpdate(const SDL_Event& e);
@@ -25,4 +26,5 @@ private:
 	static int MouseX;
 	static int MouseY;
 
+	static inline SDL_Event s_InputEvent;
 };

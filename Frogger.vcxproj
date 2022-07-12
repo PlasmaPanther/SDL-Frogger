@@ -19,6 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Frogger\FroggerEntrance.cpp" />
+    <ClCompile Include="src\Frogger\Frog.cpp" />
+    <ClCompile Include="src\Frogger\FroggerEntity.cpp" />
+    <ClCompile Include="src\States\PlayState.cpp" />
+    <ClCompile Include="src\States\SplashMenu.cpp" />
     <ClCompile Include="src\AnimatedTexture2D.cpp" />
     <ClCompile Include="src\AudioPlayer.cpp" />
     <ClCompile Include="src\Font.cpp" />
@@ -36,9 +41,13 @@
     <ClCompile Include="src\TimerModule.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Frogger\FroggerEntrance.h" />
+    <ClInclude Include="src\Frogger\Frog.h" />
+    <ClInclude Include="src\Frogger\FroggerEntity.h" />
+    <ClInclude Include="src\States\PlayState.h" />
+    <ClInclude Include="src\States\SplashMenu.h" />
     <ClInclude Include="src\AnimatedTexture2D.h" />
     <ClInclude Include="src\AudioPlayer.h" />
-    <ClInclude Include="src\dump.h" />
     <ClInclude Include="src\Font.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Graphics.h" />

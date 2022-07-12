@@ -60,6 +60,21 @@
     <ClCompile Include="src\ParticleSystem\ParticleEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\States\SplashMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\States\PlayState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Frogger\FroggerEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Frogger\Frog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Frogger\FroggerEntrance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics.h">
@@ -98,9 +113,6 @@
     <ClInclude Include="src\Shape2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dump.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\States\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,6 +123,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticleSystem\ParticleEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\States\SplashMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\States\PlayState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Frogger\FroggerEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Frogger\Frog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Frogger\FroggerEntrance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

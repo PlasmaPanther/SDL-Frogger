@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "TimerModule.h"
 #include "Input.h"
+#include "States/SplashMenu.h"
 
 Application* Application::s_Instance = nullptr;
 SDL_Event Application::s_Event;
@@ -24,14 +25,16 @@ Application::Application() {
 
 	TimerModule::UpdateDelta();
 
+	_StateMachine.addState(SplashMenu::GetInstance());
+
 }
 
 Application::~Application() {
 
+	_StateMachine.KillAllStates();
+
 	m_Graphics->DestroyInstance();
 	m_Graphics = nullptr;
-	
-	_StateMachine.KillAllStates();
 }
 
 void Application::DestroyInstance() {
@@ -66,7 +69,7 @@ void Application::MainLoop() {
 			break;
 		}
 
-		Input::InputUpdate();
+		Input::InputUpdate(s_Event);
 
 		m_Graphics->Update();
 		_StateMachine.Update();

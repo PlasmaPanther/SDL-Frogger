@@ -15,6 +15,23 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+namespace Colors {
+	constexpr SDL_Color RED = { 255, 0, 0, 255 };
+	constexpr SDL_Color GREEN = { 0, 255, 0, 255 };
+	constexpr SDL_Color BLUE = { 0, 0, 255, 255 };
+	constexpr SDL_Color YELLOW = { 255, 255, 51, 255 };
+	constexpr SDL_Color BROWN = { 150, 75, 0, 255 };
+	constexpr SDL_Color WHITE = { 255, 255, 255, 255 };
+	constexpr SDL_Color BLACK = { 0, 0, 0, 255 };
+	constexpr SDL_Color BEIGE = { 245, 245, 220, 255 };
+	constexpr SDL_Color CYAN = { 0, 255, 255, 255 };
+	constexpr SDL_Color ORANGE = { 255, 165, 0, 255 };
+	constexpr SDL_Color PINK = { 255, 100, 180, 255 };
+	constexpr SDL_Color PURPLE = { 240, 0, 255, 255 };
+	constexpr SDL_Color LIME = { 180, 255, 100, 255 };
+}
+
+
 class Graphics
 {
 public:
@@ -46,9 +63,6 @@ private:
 
 	const int WINDOW_W = 800;
 	const int WINDOW_H = 600;
-	
-	const int m_Min_WindowWidth = 640;
-	const int m_Min_WindowHeight = 360;
 
 	bool m_Initialized;
 

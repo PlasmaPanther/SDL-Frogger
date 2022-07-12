@@ -1,6 +1,5 @@
 #include "Texture2D.h"
-
-std::unordered_map<std::string, SDL_Texture*> Texture2D::m_TextureMap;
+#include <iostream>
 
 Texture2D::Texture2D()
 {
@@ -13,7 +12,7 @@ Texture2D::~Texture2D() {
 		if (texture.second) {
 			SDL_DestroyTexture(texture.second);
 			texture.second = nullptr;
-			printf("texture in map ded\n");
+			std::cout << "Texture Freed!" << std::endl;
 
 		}
 	}
@@ -28,8 +27,8 @@ Texture2D::~Texture2D() {
 SDL_Texture* Texture2D::GetTexture(const std::string& filename)
 {
 
-	std::string base_path = SDL_GetBasePath();
-	base_path.append("Images/" + filename);
+	std::string base_path = "";
+	base_path.append("Resources/Textures/" + filename);
 
 	if (m_TextureMap[base_path] == nullptr) {
 		m_TextureMap[base_path] = IMG_LoadTexture(Graphics::GetRenderer(), base_path.c_str());
@@ -81,6 +80,9 @@ void Texture2D::RenderBackground() {
 	SDL_RenderCopyF(Graphics::GetRenderer(), m_Tex, nullptr, &m_DestRect);
 }
 
-void Texture2D::RenderClippedTexture() {
-	SDL_RenderCopyF(Graphics::GetRenderer(), m_Tex, &m_SrcRect, &m_DestRect);
+void Texture2D::RenderClippedTexture(bool renderFlag) {
+
+	if (renderFlag) {
+		SDL_RenderCopyF(Graphics::GetRenderer(), m_Tex, &m_SrcRect, &m_DestRect);
+	}
 }

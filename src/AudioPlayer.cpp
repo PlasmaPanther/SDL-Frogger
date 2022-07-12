@@ -38,7 +38,7 @@ AudioPlayer::~AudioPlayer() {
 
 Mix_Music* AudioPlayer::GetMusic(std::string filename) {
 	std::string basepath = SDL_GetBasePath();
-	basepath.append("Sounds/" + filename);
+	basepath.append("Resources/Audio/" + filename);
 
 	if (m_MusicMap[basepath] == nullptr) {
 		m_MusicMap[basepath] = Mix_LoadMUS(basepath.c_str());

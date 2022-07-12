@@ -57,7 +57,7 @@ bool Graphics::Init() {
 		return false;
 	}*/
 	
-	m_Window = SDL_CreateWindow("Bravo Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, SDL_WINDOW_SHOWN);
+	m_Window = SDL_CreateWindow("Frogger", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, SDL_WINDOW_SHOWN);
 
 	if (m_Window == nullptr) {
 		printf("Could not create window: %s\n", SDL_GetError());
@@ -70,8 +70,6 @@ bool Graphics::Init() {
 		printf("Renderer could not be created: %s\n", SDL_GetError());
 		return false;
 	}
-
-	SDL_SetWindowMinimumSize(m_Window, m_Min_WindowWidth, m_Min_WindowHeight);
 
 	return true;
 }
