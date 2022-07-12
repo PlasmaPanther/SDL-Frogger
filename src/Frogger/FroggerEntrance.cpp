@@ -23,6 +23,8 @@ void FroggerEntrance::Init(Vector2 _pos)
 	m_RenderedLetters.fill(false);
 
 	m_AllInPositionHorizontal = false;
+
+	m_RenderTracker = 1;
 }
 
 void FroggerEntrance::Update()
@@ -75,15 +77,15 @@ void FroggerEntrance::Render()
 
 			if (!m_RenderedLetters[i]) {
 
-				while (j < m_FrogVector.size()) {
+				while (m_RenderTracker < m_FrogVector.size()) {
 
-					for (int k = j; k < m_FrogVector.size(); ++k) { //re-render the frogs again since they disappear once they reach the top
+					for (int k = m_RenderTracker; k < m_FrogVector.size(); ++k) { //re-render the frogs again since they disappear once they reach the top
 
 						m_FrogVector[k].Render(true, m_InPositionHorizontal[i], m_AllInPositionHorizontal);
 
 					}
 
-					++j;
+					++m_RenderTracker;
 					break;
 				}
 

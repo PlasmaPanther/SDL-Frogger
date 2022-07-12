@@ -27,6 +27,6 @@ private:
 	std::array<bool, 7> m_RenderedLetters;
 
 	bool m_AllInPositionHorizontal;
-	int j = 1;
+	int m_RenderTracker;
 };
 
