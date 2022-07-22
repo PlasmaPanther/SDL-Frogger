@@ -32,6 +32,7 @@ Graphics::~Graphics() {
 	m_Renderer = nullptr;
 	printf("Renderer destroyed\n");
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

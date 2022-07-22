@@ -26,11 +26,9 @@ Font::~Font() {
 		TTF_CloseFont(m_Font);
 		m_Font = nullptr;
 	}
-
-	TTF_Quit();
 }
 
-void Font::Load(const std::string& fontname, uint32_t size, std::string text, SDL_Color color) {
+void Font::Load(const std::string& fontname, uint32_t size, const std::string& text, SDL_Color color) {
 
 	std::string fontpath = "Resources/Fonts/" + fontname;
 
@@ -47,6 +45,30 @@ void Font::Load(const std::string& fontname, uint32_t size, std::string text, SD
 	}
 }
 
+void Font::Load(const std::string& fontname, Vector2 _pos, uint32_t size, const std::string& text, SDL_Color color)
+{
+	std::string fontpath = "Resources/Fonts/" + fontname;
+
+	if (!m_Font) {
+		m_Font = TTF_OpenFont(fontpath.c_str(), size);
+	}
+
+	if (!m_FontSurface) {
+		m_FontSurface = TTF_RenderText_Solid(m_Font, text.c_str(), color);
+	}
+
+	if (!m_FontTexture) {
+		m_FontTexture = SDL_CreateTextureFromSurface(Graphics::GetRenderer(), m_FontSurface);
+	}
+
+	if (m_FontSurface) { //Prevents annoying segfault when switching between states
+		m_DestRect.x = _pos.x;
+		m_DestRect.y = _pos.y;
+		m_DestRect.w = m_FontSurface->w;
+		m_DestRect.h = m_FontSurface->h;
+	}
+}
+
 void Font::LoadToText(const std::string& fontname, uint32_t size, int val, SDL_Color color) {
 
 	std::string val_to_str = std::to_string(val);
@@ -55,15 +77,27 @@ void Font::LoadToText(const std::string& fontname, uint32_t size, int val, SDL_C
 
 }
 
-void Font::DrawText(int x, int y) {
-
-	if (m_FontSurface) { //Prevents annoying segfault when switching between states
-		m_DestRect.x = x;
-		m_DestRect.y = y;
-		m_DestRect.w = m_FontSurface->w;
-		m_DestRect.h = m_FontSurface->h;
-
+void Font::Render(bool renderFlag)
+{
+	if (renderFlag) {
 		SDL_RenderCopyF(Graphics::GetRenderer(), m_FontTexture, nullptr, &m_DestRect);
+	}
+}
+
+void Font::Render(Vector2 _pos, bool renderFlag) {
+
+	if (renderFlag) {
+
+		if (m_FontSurface) { //Prevents annoying segfault when switching between states
+
+			m_DestRect.x = _pos.x;
+			m_DestRect.y = _pos.y;
+			m_DestRect.w = m_FontSurface->w;
+			m_DestRect.h = m_FontSurface->h;
+
+			SDL_RenderCopyF(Graphics::GetRenderer(), m_FontTexture, nullptr, &m_DestRect);
+		}
+
 	}
 }
 

@@ -10,7 +10,7 @@ public:
 	virtual void Init(Vector2 _pos) = 0;
 
 	virtual void Update() = 0;
-	virtual void Render() {}
+	virtual void Render() = 0;
 
 	virtual void Move(Vector2 _vel) { m_Texture2D.Move(_vel); m_AnimatedTexture.Move(_vel); m_Position += _vel; }
 

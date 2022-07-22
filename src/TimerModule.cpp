@@ -1,7 +1,4 @@
 #include "TimerModule.h"
-#include <iostream>
-
-
 
 float TimerModule::GetDelta()
 {

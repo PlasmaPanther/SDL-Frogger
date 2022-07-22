@@ -29,7 +29,6 @@ private:
 	Font m_HiScoreValue;
 	Font m_Credit;
 
-	Frog m_Frog;
 	FroggerEntrance m_Entrance;
 };
 

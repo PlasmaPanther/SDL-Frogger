@@ -20,7 +20,6 @@ bool SplashMenu::onEnter()
 
 	m_Credit.Load("Emulogic.ttf", 24, "Credit 00", Colors::CYAN);
 
-	m_Frog.Init(Vector2(300, 300));
 	m_Entrance.Init(Vector2(850, 320));
 
 	return true;
@@ -33,21 +32,24 @@ void SplashMenu::Update()
 	}
 
 	m_Entrance.Update();
+
+	if (m_Entrance.IsAnimationDone()) {
+		
+	}
+
 }
 
 void SplashMenu::Render()
 {
 	m_BlueSqare.DrawRect(0, 0, 80, 255);
 
-	m_OneUp.DrawText(90, 0);
-	m_OneUpValue.DrawText(90, 24);
+	m_OneUp.Render(Vector2(90, 0));
+	m_OneUpValue.Render(Vector2(90, 24));
 
-	m_HiScore.DrawText(320, 0);
-	m_HiScoreValue.DrawText(320, 24);
+	m_HiScore.Render(Vector2(320, 0));
+	m_HiScoreValue.Render(Vector2(320, 24));
 
-	m_Credit.DrawText(550, 565);
-
-	//m_Frog.Render();
+	m_Credit.Render(Vector2(550, 565));
 
 	m_Entrance.Render();
 
@@ -57,6 +59,16 @@ bool SplashMenu::onExit()
 {
 
 	std::cout << "Exiting Splash Menu!" << std::endl;
+
+	m_Entrance.Clean();
+
+	m_OneUp.FreeFont();
+	m_OneUpValue.FreeFont();
+
+	m_HiScore.FreeFont();
+	m_HiScoreValue.FreeFont();
+
+	m_Credit.FreeFont();
 
 	return true;
 }

@@ -152,6 +152,9 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Includes\SDL2;$(SolutionDir)Dependencies\Includes\SDL2_Image;$(SolutionDir)Dependencies\Includes\SDL2_Mixer;$(SolutionDir)Dependencies\Includes\SDL2_TTF;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -188,6 +191,9 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Includes\SDL2;$(SolutionDir)Dependencies\Includes\SDL2_Image;$(SolutionDir)Dependencies\Includes\SDL2_Mixer;$(SolutionDir)Dependencies\Includes\SDL2_TTF;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
