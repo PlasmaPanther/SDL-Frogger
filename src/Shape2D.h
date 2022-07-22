@@ -26,6 +26,9 @@ public:
 	void MoveRect(Vector2 _vel);
 	void MoveCircle(Vector2 _vel);
 
+	void PlaceLine(float x1, float y1, float x2, float y2);
+	void RenderLine();
+
 	bool RectangleCollision(SDL_Rect* recta, SDL_Rect* rectb);
 	bool CircleCollision(Circle* circlea, Circle* circleb);
 	bool CircleToRectCollision(Circle* _circle, SDL_Rect* rect);

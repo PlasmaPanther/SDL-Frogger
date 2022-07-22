@@ -1,7 +1,4 @@
 #include "SplashMenu.h"
-#include "PlayState.h"
-#include "StateMachine.h"
-#include "../Input.h"
 #include <iostream>
 
 SplashMenu SplashMenu::s_SplashMenuInstance;
@@ -27,9 +24,6 @@ bool SplashMenu::onEnter()
 
 void SplashMenu::Update()
 {
-	if (Input::KeyPressed(SDL_SCANCODE_C)) {
-		std::cout << "Key Pressed" << std::endl;
-	}
 
 	m_Entrance.Update();
 

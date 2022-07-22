@@ -62,6 +62,17 @@ void Shape2D::MoveCircle(Vector2 _vel) {
 	m_Circle.y += _vel.y;
 }
 
+void Shape2D::PlaceLine(float x1, float y1, float x2, float y2)
+{
+	SDL_SetRenderDrawColor(Graphics::GetRenderer(), 255, 200, 100, 255);
+	SDL_RenderDrawLineF(Graphics::GetRenderer(), x1, y1, x2, y2);
+}
+
+void Shape2D::RenderLine()
+{
+
+}
+
 bool Shape2D::RectangleCollision(SDL_Rect* recta, SDL_Rect* rectb) {
 	if (SDL_HasIntersection(recta, rectb)) {
 		return true;

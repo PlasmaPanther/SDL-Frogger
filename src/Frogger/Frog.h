@@ -1,6 +1,8 @@
 #pragma once
 #include "FroggerEntity.h"
 
+enum class Directions { NONE = 0, UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4};
+
 class Frog: public FroggerEntity
 {
 public:
@@ -17,6 +19,8 @@ public:
 	void Clean() override;
 
 private:
+
+	Directions m_FrogDirections;
 
 };
 

@@ -2,6 +2,7 @@
 #include "TimerModule.h"
 #include "Input.h"
 #include "States/SplashMenu.h"
+#include "States/PlayState.h"
 
 Application* Application::s_Instance = nullptr;
 SDL_Event Application::s_Event;
@@ -25,7 +26,8 @@ Application::Application() {
 
 	TimerModule::UpdateDelta();
 
-	_StateMachine.addState(SplashMenu::GetInstance());
+	//_StateMachine.addState(SplashMenu::GetInstance());
+	_StateMachine.addState(PlayState::GetInstance());
 
 }
 

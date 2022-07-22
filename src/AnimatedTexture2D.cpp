@@ -31,7 +31,7 @@ void AnimatedTexture2D::LoadAnimation(const std::string& filename, Vector2 _pos,
 	m_Rotation = rotation;
 }
 
-void AnimatedTexture2D::RenderAnimation(int SourceX, int SourceY, uint32_t speed, int numframes, int framenuminsheet, bool renderFlag, SDL_RendererFlip flip) {
+void AnimatedTexture2D::RenderAnimation(int SourceX, int SourceY, uint32_t speed, int numframes, int framenuminsheet, SDL_RendererFlip flip, bool renderFlag) {
 
 	m_currentFrame = static_cast<int>(((SDL_GetTicks() / speed) % numframes));
 
