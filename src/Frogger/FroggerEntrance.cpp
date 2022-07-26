@@ -14,13 +14,13 @@ void FroggerEntrance::Init(Vector2 _pos)
 
 	m_LettersVector.resize(7);
 
-	m_LettersVector[0].LoadClippedTexture("frogger_spritesF.png", 13,  10, Vector2(140, 90), 32, 32, 1.5f); //F
-	m_LettersVector[1].LoadClippedTexture("frogger_spritesF.png", 60,  10, Vector2(220, 90), 32, 32, 1.5f); //R
-	m_LettersVector[2].LoadClippedTexture("frogger_spritesF.png", 110, 10, Vector2(300, 90), 32, 32, 1.5f); //O
-	m_LettersVector[3].LoadClippedTexture("frogger_spritesF.png", 157, 10, Vector2(380, 90), 32, 32, 1.5f); //G
-	m_LettersVector[4].LoadClippedTexture("frogger_spritesF.png", 157, 10, Vector2(460, 90), 32, 32, 1.5f); //G
-	m_LettersVector[5].LoadClippedTexture("frogger_spritesF.png", 257, 10, Vector2(540, 90), 32, 32, 1.5f); //E
-	m_LettersVector[6].LoadClippedTexture("frogger_spritesF.png", 300, 10, Vector2(620, 90), 32, 32, 1.5f); //R
+	m_LettersVector[0].LoadClippedTexture("frogger_sprites.png", 13,  10, Vector2(140, 90), 32, 32, 1.5f); //F
+	m_LettersVector[1].LoadClippedTexture("frogger_sprites.png", 60,  10, Vector2(220, 90), 32, 32, 1.5f); //R
+	m_LettersVector[2].LoadClippedTexture("frogger_sprites.png", 110, 10, Vector2(300, 90), 32, 32, 1.5f); //O
+	m_LettersVector[3].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(380, 90), 32, 32, 1.5f); //G
+	m_LettersVector[4].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(460, 90), 32, 32, 1.5f); //G
+	m_LettersVector[5].LoadClippedTexture("frogger_sprites.png", 257, 10, Vector2(540, 90), 32, 32, 1.5f); //E
+	m_LettersVector[6].LoadClippedTexture("frogger_sprites.png", 300, 10, Vector2(620, 90), 32, 32, 1.5f); //R
 
 	m_TextVector.resize(7);
 

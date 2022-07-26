@@ -53,7 +53,7 @@ void Texture2D::LoadBackground(const std::string& filename)
 
 }
 
-void Texture2D::LoadClippedTexture(const std::string& filename, int srcx, int srcy, Vector2 _pos, int w, int h, float scale) {
+void Texture2D::LoadClippedTexture(const std::string& filename, int srcx, int srcy, Vector2 _pos, int w, int h, Vector2 scale) {
 
 	m_Tex = this->GetTexture(filename);
 
@@ -66,8 +66,8 @@ void Texture2D::LoadClippedTexture(const std::string& filename, int srcx, int sr
 	m_SrcRect.w = m_DestRect.w = w;
 	m_SrcRect.h = m_DestRect.h = h;
 
-	m_DestRect.w *= scale;
-	m_DestRect.h *= scale;
+	m_DestRect.w *= scale.x;
+	m_DestRect.h *= scale.y;
 
 }
 
@@ -76,13 +76,16 @@ void Texture2D::KillTexture() {
 	m_Tex = nullptr;
 }
 
-void Texture2D::RenderBackground() {
-	SDL_RenderCopyF(Graphics::GetRenderer(), m_Tex, nullptr, &m_DestRect);
-}
-
-void Texture2D::RenderClippedTexture(bool renderFlag) {
+void Texture2D::RenderBackground(bool renderFlag) {
 
 	if (renderFlag) {
-		SDL_RenderCopyF(Graphics::GetRenderer(), m_Tex, &m_SrcRect, &m_DestRect);
+		SDL_RenderCopyF(Graphics::GetRenderer(), m_Tex, nullptr, &m_DestRect);
+	}
+}
+
+void Texture2D::RenderClippedTexture(float angle, bool renderFlag) {
+
+	if (renderFlag) {
+		SDL_RenderCopyExF(Graphics::GetRenderer(), m_Tex, &m_SrcRect, &m_DestRect, angle, nullptr, SDL_FLIP_NONE);
 	}
 }

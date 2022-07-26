@@ -10,15 +10,12 @@ public:
 	virtual ~Texture2D();
 	
 	void LoadBackground(const std::string& filename);
-	void LoadClippedTexture(const std::string& filename, int srcX, int srcY, Vector2 _pos, int w, int h, float scale);
+	void LoadClippedTexture(const std::string& filename, int srcX, int srcY, Vector2 _pos, int w, int h, Vector2 scale);
 
-	void RenderBackground();
-	void RenderClippedTexture(bool renderFlag = true);
+	void RenderBackground(bool renderFlag = true);
+	void RenderClippedTexture(float angle = 0.0f, bool renderFlag = true);
 
 	void KillTexture();
-
-	void SwitchTexture(SDL_Texture* tex) { m_Tex = tex; }
-	SDL_Texture* GetTex() { return m_Tex; }
 
 private:
 
