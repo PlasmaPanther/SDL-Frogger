@@ -16,13 +16,9 @@ private:
 	
 	static SDL_Event s_Event;
 
-	//==============Place your own classes here===============//
-
 	Graphics* m_Graphics;
 
 	StateMachine _StateMachine;
-
-	//=======================================================//
 
 	bool m_Running;
 

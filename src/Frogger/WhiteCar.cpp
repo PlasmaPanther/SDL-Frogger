@@ -1,5 +1,6 @@
 #include "WhiteCar.h"
 #include "../TimerModule.h"
+#include "../CollisionManager.h"
 
 void WhiteCar::Init(Vector2 _pos)
 {
@@ -8,6 +9,8 @@ void WhiteCar::Init(Vector2 _pos)
 	m_Texture2D.LoadClippedTexture("frogger_sprites.png", 45, 265, m_Position, 27, 24, Vector2(1.8f, 1.5f));
 
 	m_Velocity = { 51.0f, 0.0f };
+	
+	CollisionManager::AddCollider(&m_Texture2D, "vehicles");
 }
 
 void WhiteCar::Update()

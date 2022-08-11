@@ -7,7 +7,7 @@ bool SplashMenu::onEnter()
 {
 	std::cout << "Entering Splash Menu!" << std::endl;
 
-	m_BlueSqare.PlaceRect(Vector2(0, 0), 800, 300);
+	m_BlueSqare.Place(Vector2(0, 0), Vector2(800, 300));
 
 	m_OneUp.Load("Emulogic.ttf", 24, "1-UP", Colors::WHITE);
 	m_OneUpValue.Load("Emulogic.ttf", 24, "01580", Colors::RED);
@@ -35,7 +35,7 @@ void SplashMenu::Update()
 
 void SplashMenu::Render()
 {
-	m_BlueSqare.DrawRect(0, 0, 80, 255);
+	m_BlueSqare.RenderRect(0, 0, 80, 255);
 
 	m_OneUp.Render(Vector2(90, 0));
 	m_OneUpValue.Render(Vector2(90, 24));

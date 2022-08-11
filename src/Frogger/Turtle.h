@@ -7,6 +7,9 @@ class Turtle
 {
 public:
 
+	Turtle() = default;
+	~Turtle() = default;
+
 	void Init(Vector2 _pos);
 
 	void Update();
@@ -14,8 +17,6 @@ public:
 	void Render(TurtleAnimation animationType = TurtleAnimation::SHORT);
 
 private:
-	
-	//TurtleAnimation m_Animation;
 
 	AnimatedTexture2D m_AnimatedTexture;
 

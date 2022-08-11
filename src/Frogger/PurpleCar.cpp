@@ -1,5 +1,6 @@
 #include "PurpleCar.h"
 #include "../TimerModule.h"
+#include "../CollisionManager.h"
 
 void PurpleCar::Init(Vector2 _pos)
 {
@@ -8,6 +9,8 @@ void PurpleCar::Init(Vector2 _pos)
 	m_Texture2D.LoadClippedTexture("frogger_sprites.png", 10, 267, m_Position, 28, 20, Vector2(1.8f, 1.6f));
 
 	m_Velocity = { -40.0f, 0.0f };
+
+	CollisionManager::AddCollider(&m_Texture2D, "vehicles");
 }
 
 void PurpleCar::Update()

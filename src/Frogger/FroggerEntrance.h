@@ -23,6 +23,7 @@ public:
 private:
 
 	void SkipScene();
+	void LoadResources();
 
 private:
 

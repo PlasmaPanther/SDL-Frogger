@@ -1,5 +1,6 @@
 #include "YellowCar.h"
 #include "../TimerModule.h"
+#include "../CollisionManager.h"
 
 void YellowCar::Init(Vector2 _pos)
 {
@@ -8,6 +9,8 @@ void YellowCar::Init(Vector2 _pos)
 	m_Texture2D.LoadClippedTexture("frogger_sprites.png", 82, 264, m_Position, 24, 25, Vector2(1.8f, 1.3f));
 
 	m_Velocity = { -30.0f, 0.0f };
+
+	CollisionManager::AddCollider(&m_Texture2D, "vehicles");
 }
 
 void YellowCar::Update()

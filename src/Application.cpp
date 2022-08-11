@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "States/SplashMenu.h"
 #include "States/PlayState.h"
+#include "CollisionManager.h"
 
 Application* Application::s_Instance = nullptr;
 SDL_Event Application::s_Event;
@@ -72,6 +73,7 @@ void Application::MainLoop() {
 		}
 
 		Input::InputUpdate(s_Event);
+		CollisionManager::Update();
 
 		m_Graphics->Update();
 		_StateMachine.Update();

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionManager.cpp" />
     <ClCompile Include="src\Frogger\Log.cpp" />
     <ClCompile Include="src\Frogger\PurpleCar.cpp" />
     <ClCompile Include="src\Frogger\Levels\LevelOne.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="src\Frogger\Turtle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionManager.h" />
     <ClInclude Include="src\Frogger\Log.h" />
     <ClInclude Include="src\Frogger\PurpleCar.h" />
     <ClInclude Include="src\Frogger\Levels\LevelOne.h" />

@@ -5,13 +5,14 @@
 class Object2D
 {
 public:
-	Object2D(float x = 0.0f, float y = 0.0f);
-	~Object2D() = default;
+	Object2D();
+	virtual ~Object2D() = default;
 
-	void Move(Vector2 _vec);
+	virtual void Move(Vector2 _vec) = 0;
 
-	friend bool CheckCollision(Object2D& ObjectA, Object2D& ObjectB);
-	
+	void SetVelocity(Vector2 _vel);
+	Vector2 GetVelocity();
+
 	SDL_FRect& GetRect();
 
 protected:
@@ -19,9 +20,7 @@ protected:
 	SDL_FRect m_DestRect;
 	SDL_Rect m_SrcRect;
 
-private:
-
-	Vector2 _Vector2;
+	Vector2 m_Velocity;
 
 };
 

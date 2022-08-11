@@ -1,5 +1,6 @@
 #include "Turtle.h"
 #include "../TimerModule.h"
+#include "../CollisionManager.h"
 
 void Turtle::Init(Vector2 _pos)
 {
@@ -8,6 +9,8 @@ void Turtle::Init(Vector2 _pos)
 	m_AnimatedTexture.LoadAnimation("frogger_sprites.png", m_Position, 30, 22, 0, Vector2(1.5f, 1.5f));
 
 	m_Velocity = { -65.0f, 0.0f };
+
+	CollisionManager::AddCollider(&m_AnimatedTexture, "turtles");
 }
 
 void Turtle::Update()

@@ -13,10 +13,11 @@ public:
 
 	void Render();
 
-	//This function will help with rendering the frogs at the splash menu
-	void EntranceRender(bool HorizontalPos = false, bool AllInPosition = false, bool renderFlag = true);
+	//These functions will help with rendering the frogs at the splash menu
+	void EntranceRender(bool inHorizontalPos = false, bool AllInPosition = false, bool renderFlag = true);
 	void Move(Vector2 _vel) { m_Texture2D.Move(_vel); m_AnimatedTexture.Move(_vel); m_Position += _vel; }
 	Vector2 GetPosition() { return m_Position; }
+	//======================================================================
 
 private:
 
@@ -25,6 +26,7 @@ private:
 	AnimatedTexture2D m_AnimatedTexture;
 	Texture2D m_Texture2D;
 
+	Vector2 circlepos;
 	Vector2 m_Velocity;
 	Vector2 m_Position;
 };

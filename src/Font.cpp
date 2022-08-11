@@ -101,6 +101,12 @@ void Font::Render(Vector2 _pos, bool renderFlag) {
 	}
 }
 
+void Font::Move(Vector2 _vec)
+{
+	m_DestRect.x += _vec.x;
+	m_DestRect.y += _vec.y;
+}
+
 void Font::ChangeText(const std::string& text, SDL_Color color) {
 
 	SDL_DestroyTexture(m_FontTexture);

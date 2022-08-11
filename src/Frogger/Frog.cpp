@@ -1,5 +1,6 @@
 #include "Frog.h"
 #include "../Input.h"
+#include "../CollisionManager.h"
 
 void Frog::Init(Vector2 _pos)
 {
@@ -9,28 +10,44 @@ void Frog::Init(Vector2 _pos)
 	m_Texture2D.LoadClippedTexture("frogger_sprites.png", 0, 365, m_Position, 23, 17, Vector2(1.35f, 1.5f));
 	
 	m_FrogDirections = Directions::UP;
+
+	CollisionManager::AddCollider(&m_Texture2D, "player");
 }
 
 void Frog::Update()
 {
+	if (CollisionManager::CheckGroupCollision("player", "vehicles")) {
+		
+	}
+
+	if (CollisionManager::CheckGroupCollision("player", "logs")) {
+		
+	}
+
+	if (CollisionManager::CheckGroupCollision("player", "turtles")) {
+		
+	}
+
 	if (Input::KeyPressed(SDL_SCANCODE_W)) {
 		m_FrogDirections = Directions::UP;
 		m_Texture2D.Move(Vector2(0, -38.3f));
+		
 	}
 	
 	if (Input::KeyPressed(SDL_SCANCODE_S)) {
 		m_FrogDirections = Directions::DOWN;
 		m_Texture2D.Move(Vector2(0, 38.3f));
+
 	}
 
 	if (Input::KeyPressed(SDL_SCANCODE_A)) {
 		m_FrogDirections = Directions::LEFT;
-		m_Texture2D.Move(Vector2(-38, 0));
+		m_Texture2D.Move(Vector2(-30, 0));
 	}
 
 	if (Input::KeyPressed(SDL_SCANCODE_D)) {
 		m_FrogDirections = Directions::RIGHT;
-		m_Texture2D.Move(Vector2(38, 0));
+		m_Texture2D.Move(Vector2(30, 0));
 	}
 }
 
@@ -61,11 +78,11 @@ void Frog::Render()
 
 }
 
-void Frog::EntranceRender(bool HorizontalPos, bool AllInPosition, bool renderFlag)
+void Frog::EntranceRender(bool inHorizontalPos, bool AllInPosition, bool renderFlag)
 {
 	if (renderFlag) {
 
-		if (HorizontalPos) { //checks to see if a frog is in position
+		if (inHorizontalPos) { //checks to see if a frog is in position
 			m_AnimatedTexture.RenderAnimation(35, 366, 300, 1, 0, SDL_FLIP_NONE, !AllInPosition); //render standing frog
 
 			if (AllInPosition) { //check to see if all the frogs are in position

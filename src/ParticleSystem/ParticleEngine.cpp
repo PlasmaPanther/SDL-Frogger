@@ -27,7 +27,7 @@ void ParticleEngine::Render() {
 	if (m_Spawned) {
 		for (int i = 0; i < m_ParticleVector.size(); ++i) {
 			if (m_ParticleVector[i].isAlive()) {
-				m_ParticleVector[i].DrawRect(20 * i + 3, 34 * i + 50, 100 * i + 10, 255);
+				m_ParticleVector[i].RenderRect(20 * i + 3, 34 * i + 50, 100 * i + 10, 255);
 			}
 		}
 	}
@@ -52,7 +52,7 @@ void ParticleEngine::Update() {
 					randomY = 2;
 				}
 
-				m_ParticleVector[i].SetSpeed(Vector2(randomX, randomY)); //apply randomized speed
+				m_ParticleVector[i].SetVelocity(Vector2(randomX, randomY)); //apply randomized speed
 				m_RandomizedSpeed = true;
 			}
 		}
@@ -60,10 +60,10 @@ void ParticleEngine::Update() {
 		if (m_RandomizedSpeed) {
 			for (int i = 0; i < m_ParticleVector.size(); ++i) {
 				if (m_ParticleVector[i].isAlive()) {
-					m_ParticleVector[i].MoveRect(m_ParticleVector[i].GetSpeed()); //Move particles by getting applied speed
+					m_ParticleVector[i].Move(m_ParticleVector[i].GetVelocity()); //Move particles by getting applied speed
 
 					//Boundary check (if particles are outside the screen)
-					if (m_ParticleVector[i].GetRect()->x > 800 || m_ParticleVector[i].GetRect()->x + m_ParticleVector[i].GetRect()->w < 0 || m_ParticleVector[i].GetRect()->y + m_ParticleVector[i].GetRect()->h < 0 || m_ParticleVector[i].GetRect()->y > 600) {
+					if (m_ParticleVector[i].GetRect().x > 800 || m_ParticleVector[i].GetRect().x + m_ParticleVector[i].GetRect().w < 0 || m_ParticleVector[i].GetRect().y + m_ParticleVector[i].GetRect().h < 0 || m_ParticleVector[i].GetRect().y > 600) {
 						m_ParticleVector[i].SetAliveStatus(false);
 					}
 				}
@@ -92,7 +92,7 @@ void ParticleEngine::Update(int x, int y) {
 				int randomX = rand() % 6 + (-3);
 				int randomY = rand() % 6 + (-3);
 
-				m_ParticleVector[i].SetSpeed(Vector2(randomX, randomY)); //apply them
+				m_ParticleVector[i].SetVelocity(Vector2(randomX, randomY)); //apply them
 				m_RandomizedSpeed = true;
 			}
 		}
@@ -100,10 +100,10 @@ void ParticleEngine::Update(int x, int y) {
 		if (m_RandomizedSpeed) {
 			for (int i = 0; i < m_ParticleVector.size(); i++) {
 				if (m_ParticleVector[i].isAlive()) {
-					m_ParticleVector[i].MoveRect(m_ParticleVector[i].GetSpeed()); //Move particles by getting applied speed
+					m_ParticleVector[i].Move(m_ParticleVector[i].GetVelocity()); //Move particles by getting applied speed
 
 					//Boundary check
-					if (m_ParticleVector[i].GetRect()->x > 800 || m_ParticleVector[i].GetRect()->x + m_ParticleVector[i].GetRect()->w < 0 || m_ParticleVector[i].GetRect()->y + m_ParticleVector[i].GetRect()->h < 0 || m_ParticleVector[i].GetRect()->y > 600) {
+					if (m_ParticleVector[i].GetRect().x > 800 || m_ParticleVector[i].GetRect().x + m_ParticleVector[i].GetRect().w < 0 || m_ParticleVector[i].GetRect().y + m_ParticleVector[i].GetRect().h < 0 || m_ParticleVector[i].GetRect().y > 600) {
 						m_ParticleVector[i].SetAliveStatus(false);
 					}
 				}
@@ -118,7 +118,7 @@ void ParticleEngine::Update(int x, int y) {
 
 				if (!m_ParticleVector[i].isAlive()) {
 					m_ParticleVector[i].SetAliveStatus(true);
-					m_ParticleVector[i].PlaceRect(Vector2(x, y), m_ParticleWidth, m_ParticleHeight);
+					m_ParticleVector[i].Place(Vector2(x, y), Vector2(m_ParticleWidth, m_ParticleHeight));
 				}
 
 			}
@@ -138,7 +138,7 @@ void ParticleEngine::Spawn(int ammount, int x, int y, int w, int h, bool limited
 	m_ParticleVector.resize(ammount);
 
 	for (int i = 0; i < m_ParticleVector.size(); ++i) {
-		m_ParticleVector[i].PlaceRect(Vector2(m_StartingX + rand() % 35, m_StartingY + rand() % 35), m_ParticleWidth, m_ParticleHeight);
+		m_ParticleVector[i].Place(Vector2(m_StartingX + rand() % 35, m_StartingY + rand() % 35), Vector2(m_ParticleWidth, m_ParticleHeight));
 		m_ParticleVector[i].SetLifetime(lifetime_ms + rand() % 250); //randomize lifetime 
 		m_ParticleVector[i].SetAliveStatus(true);
 	}
@@ -160,7 +160,7 @@ void ParticleEngine::Spawn(int ammount, int x, int y, int w, int h) {
 	m_ParticleVector.resize(ammount);
 
 	for (int i = 0; i < m_ParticleVector.size(); ++i) {
-		m_ParticleVector[i].PlaceRect(Vector2(m_StartingX + rand() % 35, m_StartingY + rand() % 35), m_ParticleWidth, m_ParticleHeight);
+		m_ParticleVector[i].Place(Vector2(m_StartingX + rand() % 35, m_StartingY + rand() % 35), Vector2(m_ParticleWidth, m_ParticleHeight));
 		m_ParticleVector[i].SetAliveStatus(true);
 	}
 

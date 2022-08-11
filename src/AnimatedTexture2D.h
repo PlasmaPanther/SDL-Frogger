@@ -14,6 +14,8 @@ public:
 	void LoadEx(const std::string& filename, Vector2 _pos);
 	void RenderEx(int speed, int totalframes);
 
+	void Move(Vector2 _vec);
+
 	uint8_t GetCurrentFrame() const;
 
 private:

@@ -12,46 +12,12 @@ void FroggerEntrance::Init(Vector2 _pos)
 		m_FrogVector[i].Init(_pos);
 	}
 
-	m_LettersVector.resize(7);
-
-	m_LettersVector[0].LoadClippedTexture("frogger_sprites.png", 13,  10, Vector2(140, 90), 32, 32, 1.5f); //F
-	m_LettersVector[1].LoadClippedTexture("frogger_sprites.png", 60,  10, Vector2(220, 90), 32, 32, 1.5f); //R
-	m_LettersVector[2].LoadClippedTexture("frogger_sprites.png", 110, 10, Vector2(300, 90), 32, 32, 1.5f); //O
-	m_LettersVector[3].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(380, 90), 32, 32, 1.5f); //G
-	m_LettersVector[4].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(460, 90), 32, 32, 1.5f); //G
-	m_LettersVector[5].LoadClippedTexture("frogger_sprites.png", 257, 10, Vector2(540, 90), 32, 32, 1.5f); //E
-	m_LettersVector[6].LoadClippedTexture("frogger_sprites.png", 300, 10, Vector2(620, 90), 32, 32, 1.5f); //R
-
-	m_TextVector.resize(7);
-
-	m_TextVector[0].Load("Emulogic.ttf", Vector2(160, 220), 24, "10 pts for each step", Colors::YELLOW);
-	m_TextVector[1].Load("Emulogic.ttf", Vector2(160, 270), 24, "50 pts for every frog", Colors::YELLOW);
-	m_TextVector[2].Load("Emulogic.ttf", Vector2(160, 300), 24, "arrived home safely", Colors::RED);
-	m_TextVector[3].Load("Emulogic.ttf", Vector2(160, 340), 24, "1000 pts by saving frogs", Colors::YELLOW);
-	m_TextVector[4].Load("Emulogic.ttf", Vector2(160, 370), 24, "into five homes", Colors::RED);
-	m_TextVector[5].Load("Emulogic.ttf", Vector2(160, 410), 24, "plus bonus", Colors::YELLOW);
-	m_TextVector[6].Load("Emulogic.ttf", Vector2(155, 440), 24, "10 pts X remaining second", Colors::RED);
-
-	m_ScoreRankingVector.resize(5);
-
-	m_ScoreRankingVector[0].Load("Emulogic.ttf", Vector2(220, 240), 25, "1 st  04630 pts", Colors::WHITE);
-	m_ScoreRankingVector[1].Load("Emulogic.ttf", Vector2(220, 290), 25, "2 nd  02050 pts", Colors::WHITE);
-	m_ScoreRankingVector[2].Load("Emulogic.ttf", Vector2(220, 340), 25, "3 rd  01970 pts", Colors::WHITE);
-	m_ScoreRankingVector[3].Load("Emulogic.ttf", Vector2(220, 390), 25, "4 th  01580 pts", Colors::PURPLE);
-	m_ScoreRankingVector[4].Load("Emulogic.ttf", Vector2(220, 440), 25, "5 th  01270 pts", Colors::WHITE);
+	this->LoadResources();
 
 	m_InPositionHorizontal.fill(false);
 	
 	m_InPositionVertical.fill(false);
 	m_RenderedLetters.fill(false);
-
-	m_PointTable.Load("Emulogic.ttf", 24, "--Point Table--", Colors::WHITE);
-	m_Konami.Load("Emulogic.ttf", 24, "Konami  ©  1981", Colors::WHITE);
-
-	m_ScoreRanking.Load("Emulogic.ttf", 24, "Score ranking", Colors::YELLOW);
-
-	m_InsertCoin.Load("Emulogic.ttf", 24, "Insert coin", Colors::GREEN);
-	m_FrogsPerPlayer.Load("Emulogic.ttf", 24, "3 frogs per player", Colors::YELLOW);
 
 	m_AllInPositionHorizontal = false;
 	
@@ -233,6 +199,47 @@ void FroggerEntrance::SkipScene()
 	m_RenderedLetters.fill(true);
 	m_FrogAnimationDone = true;
 	m_RenderTracker = 0;
+}
+
+void FroggerEntrance::LoadResources()
+{
+
+	m_LettersVector.resize(7);
+
+	m_LettersVector[0].LoadClippedTexture("frogger_sprites.png", 13, 10, Vector2(140, 90), 32, 32, Vector2(1.5f, 1.5f)); //F
+	m_LettersVector[1].LoadClippedTexture("frogger_sprites.png", 60, 10, Vector2(220, 90), 32, 32, Vector2(1.5f, 1.5f)); //R
+	m_LettersVector[2].LoadClippedTexture("frogger_sprites.png", 110, 10, Vector2(300, 90), 32, 32, Vector2(1.5f, 1.5f)); //O
+	m_LettersVector[3].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(380, 90), 32, 32, Vector2(1.5f, 1.5f)); //G
+	m_LettersVector[4].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(460, 90), 32, 32, Vector2(1.5f, 1.5f)); //G
+	m_LettersVector[5].LoadClippedTexture("frogger_sprites.png", 257, 10, Vector2(540, 90), 32, 32, Vector2(1.5f, 1.5f)); //E
+	m_LettersVector[6].LoadClippedTexture("frogger_sprites.png", 300, 10, Vector2(620, 90), 32, 32, Vector2(1.5f, 1.5f)); //R
+
+	m_TextVector.resize(7);
+
+	m_TextVector[0].Load("Emulogic.ttf", Vector2(160, 220), 24, "10 pts for each step", Colors::YELLOW);
+	m_TextVector[1].Load("Emulogic.ttf", Vector2(160, 270), 24, "50 pts for every frog", Colors::YELLOW);
+	m_TextVector[2].Load("Emulogic.ttf", Vector2(160, 300), 24, "arrived home safely", Colors::RED);
+	m_TextVector[3].Load("Emulogic.ttf", Vector2(160, 340), 24, "1000 pts by saving frogs", Colors::YELLOW);
+	m_TextVector[4].Load("Emulogic.ttf", Vector2(160, 370), 24, "into five homes", Colors::RED);
+	m_TextVector[5].Load("Emulogic.ttf", Vector2(160, 410), 24, "plus bonus", Colors::YELLOW);
+	m_TextVector[6].Load("Emulogic.ttf", Vector2(155, 440), 24, "10 pts X remaining second", Colors::RED);
+
+	m_ScoreRankingVector.resize(5);
+
+	m_ScoreRankingVector[0].Load("Emulogic.ttf", Vector2(220, 240), 25, "1 st  04630 pts", Colors::WHITE);
+	m_ScoreRankingVector[1].Load("Emulogic.ttf", Vector2(220, 290), 25, "2 nd  02050 pts", Colors::WHITE);
+	m_ScoreRankingVector[2].Load("Emulogic.ttf", Vector2(220, 340), 25, "3 rd  01970 pts", Colors::WHITE);
+	m_ScoreRankingVector[3].Load("Emulogic.ttf", Vector2(220, 390), 25, "4 th  01580 pts", Colors::PURPLE);
+	m_ScoreRankingVector[4].Load("Emulogic.ttf", Vector2(220, 440), 25, "5 th  01270 pts", Colors::WHITE);
+
+	m_PointTable.Load("Emulogic.ttf", 24, "--Point Table--", Colors::WHITE);
+	m_Konami.Load("Emulogic.ttf", 24, "Konami  ©  1981", Colors::WHITE);
+
+	m_ScoreRanking.Load("Emulogic.ttf", 24, "Score ranking", Colors::YELLOW);
+
+	m_InsertCoin.Load("Emulogic.ttf", 24, "Insert coin", Colors::GREEN);
+	m_FrogsPerPlayer.Load("Emulogic.ttf", 24, "3 frogs per player", Colors::YELLOW);
+
 }
 
 void FroggerEntrance::Clean()

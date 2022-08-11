@@ -1,5 +1,6 @@
 #include "Log.h"
 #include "../TimerModule.h"
+#include "../CollisionManager.h"
 
 void Log::Init(Vector2 _pos, LogType type)
 {
@@ -27,6 +28,7 @@ void Log::Init(Vector2 _pos, LogType type)
 			break;
 	}
 
+	CollisionManager::AddCollider(&m_Texture, "logs");
 }
 
 void Log::Update()

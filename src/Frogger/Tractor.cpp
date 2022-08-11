@@ -1,5 +1,6 @@
 #include "Tractor.h"
 #include "../TimerModule.h"
+#include "../CollisionManager.h"
 
 void Tractor::Init(Vector2 _pos)
 {
@@ -8,6 +9,8 @@ void Tractor::Init(Vector2 _pos)
 	m_AnimatedTexture.LoadAnimation("frogger_sprites.png", m_Position, 24, 21, 0, Vector2(1.8f, 1.6f));
 
 	m_Velocity = { 30.0f, 0.0f };
+
+	CollisionManager::AddCollider(&m_AnimatedTexture, "vehicles");
 }
 
 void Tractor::Update()

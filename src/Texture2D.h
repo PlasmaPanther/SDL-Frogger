@@ -15,6 +15,8 @@ public:
 	void RenderBackground(bool renderFlag = true);
 	void RenderClippedTexture(float angle = 0.0f, bool renderFlag = true);
 
+	void Move(Vector2 _vec);
+
 	void KillTexture();
 
 private:

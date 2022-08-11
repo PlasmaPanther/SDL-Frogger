@@ -89,3 +89,9 @@ void Texture2D::RenderClippedTexture(float angle, bool renderFlag) {
 		SDL_RenderCopyExF(Graphics::GetRenderer(), m_Tex, &m_SrcRect, &m_DestRect, angle, nullptr, SDL_FLIP_NONE);
 	}
 }
+
+void Texture2D::Move(Vector2 _vec)
+{
+	m_DestRect.x += _vec.x;
+	m_DestRect.y += _vec.y;
+}

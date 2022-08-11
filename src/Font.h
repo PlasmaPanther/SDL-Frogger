@@ -63,6 +63,8 @@ public:
 	void Render(bool renderFlag = true);
 	void Render(Vector2 _pos, bool renderFlag = true);
 
+	void Move(Vector2 _vec);
+
 	void FreeFont();
 
 private:
