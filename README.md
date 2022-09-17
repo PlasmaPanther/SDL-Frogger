@@ -8,8 +8,11 @@ Has a state machine that can be used to switch between states.
 # Controls
 
 W - To move Up.
+
 A - To move Left.
+
 S - To move Down.
+
 D - To move Right.
 
 ESC - To exit the game immediately.
