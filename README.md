@@ -7,10 +7,10 @@ Has a state machine that can be used to switch between states.
 
 # Controls
 
-W - To move Up
-A - To move Left
-S - To move Down
-D - To move Right
+W - To move Up.
+A - To move Left.
+S - To move Down.
+D - To move Right.
 
 ESC - To exit the game immediately.
 
@@ -21,5 +21,7 @@ Has an animated splash menu like in the original game.
 The frog animation sequence can be skipped with the ENTER key.
 
 ![splash](https://user-images.githubusercontent.com/87091726/190869400-e96e6cbf-0dbc-44b6-92a5-66b3a17d4b4b.gif)
+
+
 
 This is for educational purposes only!
