@@ -1,8 +1,9 @@
 #include "Font.h"
+#include <iostream>
 
 Font::Font() {
 	if (TTF_Init() == -1) {
-		printf("Font module could not start: %s\n", TTF_GetError());
+		std::cout << "Font module could not start " << TTF_GetError() << std::endl;
 	}
 
 	m_FontSurface = nullptr;
@@ -115,8 +116,10 @@ void Font::ChangeText(const std::string& text, SDL_Color color) {
 	SDL_FreeSurface(m_FontSurface);
 	m_FontSurface = nullptr;
 
-	m_FontSurface = TTF_RenderText_Solid(m_Font, text.c_str(), color);
-	m_FontTexture = SDL_CreateTextureFromSurface(Graphics::GetRenderer(), m_FontSurface);
+	if (m_Font) {
+		m_FontSurface = TTF_RenderText_Solid(m_Font, text.c_str(), color);
+		m_FontTexture = SDL_CreateTextureFromSurface(Graphics::GetRenderer(), m_FontSurface);
+	}
 
 }
 
@@ -138,6 +141,6 @@ void Font::FreeFont() {
 	SDL_FreeSurface(m_FontSurface);
 	m_FontSurface = nullptr;
 
-	printf("font freed\n");
+	std::cout << "Font Freed" << std::endl;
 
 }

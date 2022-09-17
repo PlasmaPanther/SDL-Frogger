@@ -13,12 +13,14 @@ public:
 
 	void Render();
 
+	void Clean();
+
 private:
 
 	Vector2 m_Position;
 	Vector2 m_Velocity;
 
-	Texture2D m_Texture;
+	Texture2D m_LogTexture;
 
 	LogType m_Type;
 

@@ -1,6 +1,7 @@
+#include <iostream>
+
 #include "PlayState.h"
 #include "../Frogger/Levels/LevelOne.h"
-#include <iostream>
 
 PlayState PlayState::s_Playstate;
 
@@ -28,6 +29,8 @@ bool PlayState::onExit()
 {
 
     std::cout << "Exiting Playstate!" << std::endl;
+
+    m_LevelManager.Clean();
 
     return true;
 }

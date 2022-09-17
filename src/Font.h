@@ -1,6 +1,7 @@
 #pragma once
-#include "Object2D.h"
 #include <string>
+
+#include "Object2D.h"
 
 namespace Colors {
 	constexpr SDL_Color RED = { 255, 0, 0, 255 };

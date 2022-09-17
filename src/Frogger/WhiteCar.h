@@ -11,9 +11,11 @@ public:
 
 	void Render();
 
+	void Clean();
+
 private:
 
-	Texture2D m_Texture2D;
+	Texture2D m_WhiteCarTexture;
 
 	Vector2 m_Velocity;
 	Vector2 m_Position;

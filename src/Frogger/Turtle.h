@@ -16,9 +16,13 @@ public:
 
 	void Render(TurtleAnimation animationType = TurtleAnimation::SHORT);
 
+	void Clean();
+
+	Vector2 GetVelocity() const;
+
 private:
 
-	AnimatedTexture2D m_AnimatedTexture;
+	AnimatedTexture2D m_AnimatedTurtleTexture;
 
 	Vector2 m_Velocity;
 	Vector2 m_Position;

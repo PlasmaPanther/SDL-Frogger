@@ -1,6 +1,7 @@
+#include <algorithm>
+
 #include "CollisionManager.h"
 #include "Shape2D.h"
-#include <algorithm>
 
 CollisionManager::~CollisionManager()
 {
@@ -33,7 +34,7 @@ void CollisionManager::Update()
 
         for (int i = 0; i < s_ColliderContainer.size(); ++i) {
 
-            for (int j = 1; j < s_ColliderContainer.size(); ++j) {
+            for (int j = 0; j < s_ColliderContainer.size(); ++j) {
 
                 //Rectangular Collision with objects (E.g. textures)
                 if (CheckCollison(s_ColliderContainer[i].first, s_ColliderContainer[i].second, s_ColliderContainer[j].first, s_ColliderContainer[j].second)) {
@@ -42,7 +43,7 @@ void CollisionManager::Update()
 
                     s_IsColliding[j] = s_ColliderContainer[j].second;
 
-                    return;
+                    return; //exit function
                 }
                 else {
 
@@ -60,7 +61,14 @@ void CollisionManager::Update()
                     
                     s_IsColliding[i] = s_ColliderContainer[i].second;
 
-                    s_IsColliding[k] = s_ShapeContainer[k].second;
+                    if (!s_IsColliding[k].empty()) { //check if value is present at current index
+
+                        s_IsColliding[k + 1] = s_ShapeContainer[k].second; //if there is assign it to the next one
+
+                    }
+                    else {
+                        s_IsColliding[k] = s_ShapeContainer[k].second; //if not proceed as normal
+                    }
 
                     return;
                 }
@@ -69,7 +77,14 @@ void CollisionManager::Update()
 
                     s_IsColliding[i] = s_ColliderContainer[i].second;
 
-                    s_IsColliding[k] = s_ShapeContainer[k].second;
+                    if (!s_IsColliding[k].empty()) {
+
+                        s_IsColliding[k + 1] = s_ShapeContainer[k].second;
+
+                    }
+                    else {
+                        s_IsColliding[k] = s_ShapeContainer[k].second;
+                    }
 
                     return;
 
@@ -92,7 +107,7 @@ void CollisionManager::Update()
 
         for (int i = 0; i < s_ShapeContainer.size(); ++i) {
 
-            for (int j = 1; j < s_ShapeContainer.size(); ++j) {
+            for (int j = 0; j < s_ShapeContainer.size(); ++j) {
 
                 //Rectangular Collision (primitives)
                 if (CheckCollison(s_ShapeContainer[i].first, s_ShapeContainer[i].second, s_ShapeContainer[j].first, s_ShapeContainer[j].second)) {
@@ -147,6 +162,12 @@ bool CollisionManager::CheckGroupCollision(const std::string& IdentifierA, const
         auto identifierB = std::find(s_IsColliding.begin(), s_IsColliding.end(), IdentifierB);
 
         if (identifierA != s_IsColliding.end() && identifierB != s_IsColliding.end()) {
+            
+            for (auto& id : s_IsColliding) {
+
+                id = ""; //remove assigned identifier to avoid unnecessary collisions
+            }
+
             return true;
         }
 
@@ -162,6 +183,7 @@ bool CollisionManager::ShouldCollide(const std::string& identifierA, const std::
     auto ignoredIdentifierB = std::find(s_IgnoredColliders.begin(), s_IgnoredColliders.end(), identifierB);
 
     if (ignoredIdentifierA != s_IgnoredColliders.end() && ignoredIdentifierB != s_IgnoredColliders.end()) {
+
         return false; //if these colliders are in the vector then collision between them shouldn't happen 
     }
 
@@ -181,16 +203,10 @@ bool CollisionManager::CheckCollison(Object2D* colliderA, const std::string& ide
 
             if (RectA.x + RectA.w >= RectB.x && RectB.x + RectB.w >= RectA.x && RectA.y + RectA.h >= RectB.y && RectB.y + RectB.h >= RectA.y) {
 
-                colliderA = nullptr;
-                colliderB = nullptr;
-
                 return true;
             }
 
         }
-
-        colliderA = nullptr;
-        colliderB = nullptr;
 
     }
 
@@ -199,7 +215,7 @@ bool CollisionManager::CheckCollison(Object2D* colliderA, const std::string& ide
 
 bool CollisionManager::CheckCollison(Object2D* colliderA, const std::string& identifierA, Shape2D* colliderB, const std::string& identifierB)
 {
-
+    //convert Shape2D object to Object2D
     Object2D* ColliderB = static_cast<Object2D*>(colliderB);
 
     return CheckCollison(colliderA, identifierA, ColliderB, identifierB);
@@ -231,15 +247,10 @@ bool CollisionManager::CheckCircleCollision(Shape2D* colliderA, const std::strin
 
             if (distance < totalRadius) {
 
-                colliderA = nullptr;
-                colliderB = nullptr;
-
                 return true;
             }
         }
 
-        colliderA = nullptr;
-        colliderB = nullptr;
     }
 
     return false;
@@ -259,25 +270,26 @@ bool CollisionManager::CheckCircleToRectCollision(Shape2D* colliderA, const std:
         Circle _circle = { 0, 0, 0 };
         SDL_FRect rect = { 0, 0, 0, 0 };
 
-        if (colliderA->GetCircle().radius > 0) {
-            _circle = colliderA->GetCircle();
+        if (colliderA->GetCircle().radius > 0) { //if radius is bigger than zero
+            _circle = colliderA->GetCircle(); //this means a circle collider is present
         }
         else {
-            rect = colliderA->GetRect();
+            rect = colliderA->GetRect(); //if not then rect is used
         }
 
-        if (colliderB->GetRect().w > 0) {
+        if (colliderB->GetRect().w > 0 && colliderB->GetRect().h > 0) { //if dimensions are big enough then a rect is used
             rect = colliderB->GetRect();
         }
         else {
-            Shape2D* ColliderB;
+            Shape2D* ColliderB; //if not then a circle should be used
 
-            ColliderB = static_cast<Shape2D*>(colliderB);
+            ColliderB = static_cast<Shape2D*>(colliderB); //convert Object2D to Shape2D
             _circle = ColliderB->GetCircle();
 
             ColliderB = nullptr;
         }
 
+        //Collision check happens here
         if (_circle.radius > 0 && rect.w > 0) {
             float testX = _circle.x;
             float testY = _circle.y;
@@ -354,5 +366,8 @@ void CollisionManager::EmptyCollisionContainer()
     s_ColliderContainer.shrink_to_fit();
 
     s_IsColliding.clear();
+    s_IsColliding.shrink_to_fit();
+
+    s_ShapeContainer.clear();
     s_IsColliding.shrink_to_fit();
 }

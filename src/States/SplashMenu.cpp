@@ -1,5 +1,7 @@
-#include "SplashMenu.h"
 #include <iostream>
+#include <fstream>
+
+#include "SplashMenu.h"
 
 SplashMenu SplashMenu::s_SplashMenuInstance;
 
@@ -12,8 +14,21 @@ bool SplashMenu::onEnter()
 	m_OneUp.Load("Emulogic.ttf", 24, "1-UP", Colors::WHITE);
 	m_OneUpValue.Load("Emulogic.ttf", 24, "01580", Colors::RED);
 
+	int HiScore;
+
+	std::ifstream Input;
+	Input.open("src/Frogger/Score.txt");
+
+	if (!Input.is_open() || !Input.good()) {
+		std::cout << "Cannot read from file" << std::endl;
+	}
+
+	Input >> HiScore;
+
+	Input.close();
+
 	m_HiScore.Load("Emulogic.ttf", 24, "HI-SCORE", Colors::WHITE);
-	m_HiScoreValue.Load("Emulogic.ttf", 24, "04630", Colors::RED);
+	m_HiScoreValue.LoadToText("Emulogic.ttf", 24, HiScore, Colors::RED);
 
 	m_Credit.Load("Emulogic.ttf", 24, "Credit 00", Colors::CYAN);
 
@@ -24,13 +39,7 @@ bool SplashMenu::onEnter()
 
 void SplashMenu::Update()
 {
-
 	m_Entrance.Update();
-
-	if (m_Entrance.IsAnimationDone()) {
-		
-	}
-
 }
 
 void SplashMenu::Render()

@@ -11,10 +11,11 @@ public:
 
 	void Render();
 
+	void Clean();
 
 private:
 
-	AnimatedTexture2D m_AnimatedTexture;
+	AnimatedTexture2D m_AnimatedTractorTexture;
 
 	Vector2 m_Velocity;
 	Vector2 m_Position;

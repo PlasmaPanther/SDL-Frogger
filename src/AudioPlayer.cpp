@@ -1,5 +1,6 @@
 #include "AudioPlayer.h"
 #include <SDL.h>
+#include <iostream>
 
 AudioPlayer::AudioPlayer() {
 
@@ -18,7 +19,7 @@ AudioPlayer::~AudioPlayer() {
 		if (music.second) {
 			Mix_FreeMusic(music.second);
 			music.second = nullptr;
-			printf("Music ded\n");
+			printf("Music Freed\n");
 		}
 	}
 	m_MusicMap.clear();
@@ -28,7 +29,7 @@ AudioPlayer::~AudioPlayer() {
 		if (sfx.second) {
 			Mix_FreeChunk(sfx.second);
 			sfx.second = nullptr;
-			printf("sfx ded\n");
+			printf("SFX Freed\n");
 		}
 	}
 	m_SFXMap.clear();
@@ -37,8 +38,8 @@ AudioPlayer::~AudioPlayer() {
 }
 
 Mix_Music* AudioPlayer::GetMusic(std::string filename) {
-	std::string basepath = SDL_GetBasePath();
-	basepath.append("Resources/Audio/" + filename);
+	
+	std::string basepath = "Resources/Audio/" + filename;
 
 	if (m_MusicMap[basepath] == nullptr) {
 		m_MusicMap[basepath] = Mix_LoadMUS(basepath.c_str());
@@ -48,12 +49,14 @@ Mix_Music* AudioPlayer::GetMusic(std::string filename) {
 		}
 	}
 
+	m_FileLoc = basepath;
+
 	return m_MusicMap[basepath];
 }
 
 Mix_Chunk* AudioPlayer::GetSFX(std::string filename) {
-	std::string basepath = SDL_GetBasePath();
-	basepath.append("Sounds/" + filename);
+	
+	std::string basepath = "Resources/Audio/" + filename;
 
 	if (m_SFXMap[basepath] == nullptr) {
 		m_SFXMap[basepath] = Mix_LoadWAV(basepath.c_str());
@@ -63,6 +66,8 @@ Mix_Chunk* AudioPlayer::GetSFX(std::string filename) {
 		}
 	}
 
+	m_FileLoc = basepath;
+
 	return m_SFXMap[basepath];
 }
 
@@ -71,13 +76,22 @@ void AudioPlayer::PlayMusic(std::string file, int loops)
 	Mix_PlayMusic(this->GetMusic(file), loops);
 }
 
+void AudioPlayer::StopMusic()
+{
+	if (Mix_PlayingMusic() != 0) {
+		Mix_HaltMusic();
+	}
+}
+
 void AudioPlayer::PauseMusic() {
+
 	if (Mix_PlayingMusic != 0) {
 		Mix_PauseMusic();
 	}
 }
 
 void AudioPlayer::ResumeMusic() {
+
 	if (Mix_PausedMusic() != 0) {
 		Mix_ResumeMusic();
 	}
@@ -86,4 +100,30 @@ void AudioPlayer::ResumeMusic() {
 void AudioPlayer::PlaySFX(std::string file, int loops, int channel)
 {
 	Mix_PlayChannel(channel, this->GetSFX(file), loops);
+}
+
+void AudioPlayer::SetMusicVolume(int volume)
+{
+	if (Mix_PlayingMusic != 0) {
+		Mix_VolumeMusic(volume);
+	}
+}
+
+void AudioPlayer::SetSFXVolume(int volume)
+{
+	Mix_VolumeChunk(m_SFXMap.at(m_FileLoc), volume);
+}
+
+bool AudioPlayer::isPlaying()
+{
+	if (Mix_PlayingMusic != 0) { //this doesn't work 'cause sdl_mixer makes the song progress infinitely..idk
+		return true;
+	}
+
+	return false;
+}
+
+int AudioPlayer::GetMusicTime()
+{
+	return Mix_GetMusicPosition(m_MusicMap[m_FileLoc]);
 }

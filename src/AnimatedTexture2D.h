@@ -11,10 +11,9 @@ public:
 	void LoadAnimation(const std::string& filename, Vector2 _pos, int w, int h, int rotation, Vector2 _scale);
 	void RenderAnimation(int SourceX, int SourceY, uint32_t speed, int numframes, int framenuminsheet, SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE, bool renderFlag = true);
 
-	void LoadEx(const std::string& filename, Vector2 _pos);
-	void RenderEx(int speed, int totalframes);
-
 	void Move(Vector2 _vec);
+
+	void ResetAnimation();
 
 	uint8_t GetCurrentFrame() const;
 

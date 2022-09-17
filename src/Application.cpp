@@ -18,17 +18,17 @@ Application* Application::Instance() {
 }
 
 Application::Application() {
-	m_Running = true;
+	
+	s_Running = true;
 
 	m_Graphics = Graphics::Instance();
 	if (!m_Graphics->Initialized()) {
-		m_Running = false;
+		s_Running = false;
 	}
 
 	TimerModule::UpdateDelta();
 
-	//_StateMachine.addState(SplashMenu::GetInstance());
-	_StateMachine.addState(PlayState::GetInstance());
+	_StateMachine.addState(SplashMenu::GetInstance());
 
 }
 
@@ -46,7 +46,8 @@ void Application::DestroyInstance() {
 }
 
 void Application::MainLoop() {
-	while (m_Running)
+
+	while (s_Running)
 	{
 
 		TimerModule::UpdateDelta();
@@ -54,7 +55,7 @@ void Application::MainLoop() {
 		while (SDL_PollEvent(&s_Event) != 0) {
 
 			if (s_Event.type == SDL_QUIT) {
-				m_Running = false;
+				s_Running = false;
 			}
 			
 			switch (s_Event.window.event)
@@ -73,6 +74,9 @@ void Application::MainLoop() {
 		}
 
 		Input::InputUpdate(s_Event);
+
+		this->Exit(); //Emergency alt + f4 when ESC key is pressed
+
 		CollisionManager::Update();
 
 		m_Graphics->Update();
@@ -82,7 +86,7 @@ void Application::MainLoop() {
 		
 		_StateMachine.Render();
 
-		////////////////////////////////////////////////////////////////////////////////////i
+		/////////////////////////////////////////////////////////////////////////////////////
 		m_Graphics->Render();
 
 		SDL_Delay(10);
@@ -92,4 +96,16 @@ void Application::MainLoop() {
 SDL_Event Application::GetEvent()
 {
 	return s_Event;
+}
+
+void Application::Shutdown()
+{
+	s_Running = false;
+}
+
+void Application::Exit()
+{
+	if (Input::Keydown(SDL_SCANCODE_ESCAPE)) {
+		s_Running = false;
+	}
 }

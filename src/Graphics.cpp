@@ -52,11 +52,6 @@ bool Graphics::Init() {
 		printf("Graphic init failed: %s\n", IMG_GetError());
 		return false;
 	}
-
-	/*if (TTF_Init() == -1) {
-		printf("Font module could not start: %s\n", TTF_GetError());
-		return false;
-	}*/
 	
 	m_Window = SDL_CreateWindow("Frogger", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, SDL_WINDOW_SHOWN);
 
@@ -71,6 +66,12 @@ bool Graphics::Init() {
 		printf("Renderer could not be created: %s\n", SDL_GetError());
 		return false;
 	}
+
+	SDL_Surface* icon = IMG_Load("Resources/Textures/frogger_icon.png");
+	SDL_SetWindowIcon(m_Window, icon);
+
+	SDL_FreeSurface(icon);
+	icon = nullptr;
 
 	return true;
 }

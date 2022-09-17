@@ -54,12 +54,6 @@
     <ClCompile Include="src\States\StateMachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleSystem\Particle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticleSystem\ParticleEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\States\SplashMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,12 +138,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\States\StateMachine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticleSystem\Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticleSystem\ParticleEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\States\SplashMenu.h">

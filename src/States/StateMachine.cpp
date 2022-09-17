@@ -1,4 +1,6 @@
 #include "StateMachine.h"
+#include <iostream>
+
 std::vector<GameState*> StateMachine::m_GameStateVector;
 
 void StateMachine::addState(GameState* state) {
@@ -52,7 +54,7 @@ void StateMachine::KillAllStates() {
 		m_GameStateVector.clear(); //Kills every stored state
 		m_GameStateVector.shrink_to_fit(); // Sets capacity back to 0
 		
-		printf("vector cleared\n");
+		std::cout << "State Machine Vector Cleared" << std::endl;
 	}
 
 }

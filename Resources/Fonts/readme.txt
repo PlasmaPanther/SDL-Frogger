@@ -1,0 +1,1 @@
+Downloaded from https://www.fontspace.com/emulogic-font-f3327

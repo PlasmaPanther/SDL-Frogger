@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "Level.h"
 #include "../Frog.h"
 #include "../YellowCar.h"
@@ -9,7 +11,7 @@
 #include "../Turtle.h"
 #include "../Log.h"
 #include "../../Shape2D.h"
-#include <vector>
+#include "../../Font.h"
 
 class LevelOne: public Level
 {
@@ -23,7 +25,6 @@ public:
 	void Clean();
 
 	static LevelOne* GetInstance();
-
 
 private:
 
@@ -40,7 +41,7 @@ private:
 
 	Texture2D m_Grass;
 
-	std::vector<Shape2D> m_lines;
+	AudioPlayer m_Music;
 
 	std::vector<YellowCar> m_YellowCarVector;
 	std::vector<Tractor> m_TractorVector;
@@ -55,6 +56,14 @@ private:
 
 	Shape2D m_Lake;
 
+	Font m_HI_ScoreText;
+	Font m_OneUpText;
 
+	Font m_HiScore;
+	Font m_OneUPScore;
+	Font m_TimeText;
+
+	bool m_StageMusic;
+	bool m_ThemeMusic;
 };
 

@@ -36,26 +36,31 @@ void Shape2D::PlaceLine(float x1, float y1, float x2, float y2, uint8_t r, uint8
 	SDL_RenderDrawLineF(Graphics::GetRenderer(), x1, y1, x2, y2);
 }
 
-void Shape2D::RenderRect(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+void Shape2D::RenderRect(uint8_t r, uint8_t g, uint8_t b, uint8_t a, bool renderFlag)
 {
-	SDL_SetRenderDrawColor(Graphics::GetRenderer(), r, g, b, a); //Sets rect color
-	SDL_RenderDrawRectF(Graphics::GetRenderer(), &m_DestRect);
-	SDL_RenderFillRectF(Graphics::GetRenderer(), &m_DestRect);
+	if (renderFlag) {
+
+		SDL_SetRenderDrawColor(Graphics::GetRenderer(), r, g, b, a); //Sets rect color
+		SDL_RenderDrawRectF(Graphics::GetRenderer(), &m_DestRect);
+		SDL_RenderFillRectF(Graphics::GetRenderer(), &m_DestRect);
+	}
 }
 
-void Shape2D::RenderCircle(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+void Shape2D::RenderCircle(uint8_t r, uint8_t g, uint8_t b, uint8_t a, bool renderFlag) {
 
-	SDL_SetRenderDrawColor(Graphics::GetRenderer(), r, g, b, a); //sets circle color
+	if (renderFlag) {
 
-	for (int y = 0; y < m_Circle.radius; ++y)
-	{
-		float x_point = sqrtf((m_Circle.radius * m_Circle.radius) - (y * y)); //Calculating the X point using the Pythagorean theorem for circles
+		SDL_SetRenderDrawColor(Graphics::GetRenderer(), r, g, b, a); //sets circle color
 
-		SDL_RenderDrawLine(Graphics::GetRenderer(), m_Circle.x - x_point, m_Circle.y - y, m_Circle.x + x_point, m_Circle.y - y); //Draws the top half
-		SDL_RenderDrawLine(Graphics::GetRenderer(), m_Circle.x - x_point, m_Circle.y + y, m_Circle.x + x_point, m_Circle.y + y); //Draws the bottom half
+		for (int y = 0; y < m_Circle.radius; ++y)
+		{
+			float x_point = sqrtf((m_Circle.radius * m_Circle.radius) - (y * y)); //Calculating the X point using the Pythagorean theorem for circles
 
+			SDL_RenderDrawLine(Graphics::GetRenderer(), m_Circle.x - x_point, m_Circle.y - y, m_Circle.x + x_point, m_Circle.y - y); //Draws the top half
+			SDL_RenderDrawLine(Graphics::GetRenderer(), m_Circle.x - x_point, m_Circle.y + y, m_Circle.x + x_point, m_Circle.y + y); //Draws the bottom half
+
+		}
 	}
-
 }
 
 void Shape2D::Move(Vector2 _vec)

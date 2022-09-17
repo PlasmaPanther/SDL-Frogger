@@ -1,43 +1,76 @@
+#include <fstream>
+#include <iostream>
+
 #include "LevelOne.h"
 #include "../../CollisionManager.h"
+#include "../../Input.h"
 
 LevelOne LevelOne::s_Instance;
 
 void LevelOne::Init()
 {
 
-    m_Homes.resize(5);
+    this->Place(); //Initializes positions of entities
 
-    for (int i = 0; i < m_Homes.size(); ++i) {
-        m_Homes[i].Place(Vector2(25 + (i * 170), 70), Vector2(60, 30));
-        CollisionManager::AddCollider(&m_Homes[i], "homes");
+    int HiScore;
+
+    std::ifstream Input;
+    Input.open("src/Frogger/Score.txt");
+
+    if (!Input.is_open() || !Input.good()) {
+        std::cout << "Cannot read from file" << std::endl;
     }
 
-    m_Lake.Place(Vector2(0, 0), Vector2(800, 300));
+    Input >> HiScore;
 
-    CollisionManager::AddCollider(&m_Lake, "enviorment");
+    Input.close();
+
+    m_OneUpText.Load("Emulogic.ttf", 22, "1-UP", Colors::RED);
+    m_OneUPScore.LoadToText("Emulogic.ttf", 22, 0, Colors::WHITE);
+
+    m_HI_ScoreText.Load("Emulogic.ttf", 22, "HI-SCORE", Colors::RED);
+    m_HiScore.LoadToText("Emulogic.ttf", 22, HiScore, Colors::WHITE);
+
+    m_TimeText.Load("Emulogic.ttf", 20, "TIME", Colors::YELLOW);
 
     //These will not be able to collide with each other
-    CollisionManager::IgnoreCollider("homes");
     CollisionManager::IgnoreCollider("enviorment");
-    CollisionManager::IgnoreCollider("logs");
+    CollisionManager::IgnoreCollider("short_logs");
+    CollisionManager::IgnoreCollider("medium_logs");
+    CollisionManager::IgnoreCollider("long_logs");
     CollisionManager::IgnoreCollider("turtles");
     //===============================================
-
-    m_Player.Init(Vector2(370, 530));
 
     m_BottomPurpleSurface.LoadClippedTexture("frogger_sprites.png", 0, 118, Vector2(0, 526), 800, 34, Vector2(1.0f, 1.0f));
     m_TopPurpleSurface.LoadClippedTexture("frogger_sprites.png", 0, 118, Vector2(0, 295), 800, 34, VEC2_ONE);
 
     m_Grass.LoadClippedTexture("frogger_sprites.png", 0, 54, Vector2(0, 50), 800, 51, VEC2_ONE);
 
-    m_lines.resize(13);
+    m_Music.PlayMusic("Frogger_Theme.wav", 0);
 
-    this->Place(); //Initializes positions of entities
+    m_Music.SetMusicVolume(50);
+
+    m_StageMusic = false;
+    m_ThemeMusic = true;
+
 }
 
 void LevelOne::Update()
 {
+    //there is a function in sdl_mixer that checks when a song ends but that doesn't seem to work properly
+    //so i need to use this scuffed solution
+    if (m_Music.GetMusicTime() >= 7 && m_ThemeMusic) {
+
+        m_StageMusic = true;
+        m_ThemeMusic = false;
+
+    }
+
+    if (m_StageMusic) {
+        m_Music.PlayMusic("Frogger_Stage.wav", -1);
+
+        m_StageMusic = false;
+    }
 
     m_Player.Update();
 
@@ -52,9 +85,10 @@ void LevelOne::Update()
     for (int i = 0; i < m_PurpleCarVector.size(); ++i) {
         m_PurpleCarVector[i].Update();
     }
-
-    m_WhiteCarVector.back().Update();
-
+    
+    if (!m_WhiteCarVector.empty()) {
+        m_WhiteCarVector.back().Update();
+    }
     for (int i = 0; i < m_TruckVector.size(); ++i) {
         m_TruckVector[i].Update();
     }
@@ -67,19 +101,22 @@ void LevelOne::Update()
         m_LogVector[i].Update();
     }
 
+    m_OneUPScore.ChangeToText(m_Player.GetScore(), Colors::WHITE);
 }
 
 void LevelOne::Render()
 {
-
     m_Lake.RenderRect(0, 0, 70, 255);
 
-    Vector2 offset(0, 60);
+    m_OneUpText.Render(Vector2(150, 0));
+    m_OneUPScore.Render(Vector2(155, 25));
 
-    for (int i = 0; i < m_lines.size(); ++i) {
-        m_lines[i].PlaceLine(0, offset.y, 800, offset.y, 230, 110, 20);
-        offset.y += 39;
-    }
+    m_HI_ScoreText.Render(Vector2(320, 0));
+    m_HiScore.Render(Vector2(320, 25));
+
+    m_TimeText.Render(Vector2(700, 575));
+
+    Vector2 offset(0, 60);
 
     for (int i = 0; i < m_YellowCarVector.size(); ++i) {
         m_YellowCarVector[i].Render();
@@ -121,24 +158,26 @@ void LevelOne::Render()
 
     m_Player.Render();
 
-    for (int i = 0; i < m_Homes.size(); ++i) {
-        m_Homes[i].RenderRect(30, 140, 240, 255);
-    }
-
-}
-
-void LevelOne::Clean()
-{
-    
-}
-
-LevelOne* LevelOne::GetInstance()
-{
-    return &s_Instance;
 }
 
 void LevelOne::Place()
 {
+
+    m_Player.Init(Vector2(370, 530));
+
+    m_Homes.resize(5);
+
+    for (int i = 0; i < m_Homes.size(); ++i) {
+
+        m_Homes[i].Place(Vector2(25 + (i * 170), 70), Vector2(60, 30));
+
+        CollisionManager::AddCollider(&m_Homes[i], "home" + std::to_string(i));
+        CollisionManager::IgnoreCollider("home" + std::to_string(i)); //to avoid "colliding" with the lake
+    }
+
+    m_Lake.Place(Vector2(0, 0), Vector2(800, 300));
+
+    CollisionManager::AddCollider(&m_Lake, "enviorment");
 
     m_YellowCarVector.resize(4);
 
@@ -183,7 +222,7 @@ void LevelOne::Place()
     for (int i = 0; i < m_TruckVector.size(); ++i) {
         m_TruckVector[i].Init(TruckOffset);
 
-        TruckOffset.x += 450;
+        TruckOffset.x += 400;
     }
 
     m_TurtleVector.resize(20);
@@ -200,7 +239,7 @@ void LevelOne::Place()
             BottomTurtleOffset.x += 50;
 
             if (i == 2 || i == 5 || i == 8) {
-                BottomTurtleOffset.x += 50;
+                BottomTurtleOffset.x += 80;
             }
 
         }
@@ -229,7 +268,7 @@ void LevelOne::Place()
 
         if (i < 3) {
             m_LogVector[i].Init(ShortLogOffset, LogType::SHORT);
-            ShortLogOffset.x += 230;
+            ShortLogOffset.x += 300;
         }
 
         if (i >= 3 && i <= 5) {
@@ -244,4 +283,65 @@ void LevelOne::Place()
 
     }
 
+}
+
+
+void LevelOne::Clean()
+{
+    m_Player.Clean();
+    
+    for (auto& Logs : m_LogVector) {
+        Logs.Clean();
+    }
+
+    m_LogVector.clear();
+
+    for (auto& PurpleCar : m_PurpleCarVector) {
+        PurpleCar.Clean();
+    }
+
+    m_PurpleCarVector.clear();
+
+    for (auto& Tractor : m_TractorVector) {
+        Tractor.Clean();
+    }
+
+    m_TractorVector.clear();
+
+    for (auto& Truck : m_TruckVector) {
+        Truck.Clean();
+    }
+
+    m_TruckVector.clear();
+
+    for (auto& Turtles : m_TurtleVector) {
+        Turtles.Clean();
+    }
+
+    m_TurtleVector.clear();
+
+    for (auto& WhiteCars : m_WhiteCarVector) {
+        WhiteCars.Clean();
+    }
+
+    m_WhiteCarVector.clear();
+
+    for (auto& YellowCars : m_YellowCarVector) {
+        YellowCars.Clean();
+    }
+
+    m_YellowCarVector.clear();
+
+    m_OneUpText.FreeFont();
+    m_OneUPScore.FreeFont();
+
+    m_HI_ScoreText.FreeFont();
+    m_HiScore.FreeFont();
+
+    m_TimeText.FreeFont();
+}
+
+LevelOne* LevelOne::GetInstance()
+{
+    return &s_Instance;
 }

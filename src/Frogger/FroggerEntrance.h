@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
+
 #include "Frog.h"
 #include "../Font.h"
 
@@ -15,8 +16,6 @@ public:
 	void Update();
 
 	void Render();
-
-	bool IsAnimationDone();
 
 	void Clean();
 
@@ -39,10 +38,10 @@ private:
 
 	std::array<bool, 7> m_RenderedLetters;
 
-	Font m_PointTable;
-	Font m_Konami;
+	Font m_PointTableHandle;
+	Font m_KonamiLogo;
 	
-	Font m_ScoreRanking;
+	Font m_ScoreRankingHandle;
 	
 	Font m_InsertCoin;
 	Font m_FrogsPerPlayer;
@@ -56,5 +55,10 @@ private:
 	bool m_InsertedCoin;
 
 	int m_RenderTracker;
+
+	int m_TopCurrentScore;
+	int m_PreviousTopScore;
+
+	float m_CoinTimer;
 };
 

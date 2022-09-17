@@ -27,7 +27,7 @@ public:
 
 private:
 
-	//Checks to see if selected groups are supposed to collide with each other
+	//Checks to see if selected groups are supposed to collide with each other by comparing identifiers
 	static bool ShouldCollide(const std::string& identifierA, const std::string& identifierB);
 
 	//Checks collision between 2 rectangles
@@ -51,5 +51,6 @@ private:
 	static inline std::vector<std::string> s_IsColliding;
 
 	static inline std::vector<std::string> s_IgnoredColliders;
+
 };
 

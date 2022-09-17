@@ -1,7 +1,12 @@
+#include <fstream>
+#include <algorithm>
+#include <iostream>
+
 #include "FroggerEntrance.h"
 #include "../Input.h"
 #include "../States/PlayState.h"
 #include "../States/StateMachine.h"
+#include "../TimerModule.h"
 
 void FroggerEntrance::Init(Vector2 _pos)
 {
@@ -28,6 +33,8 @@ void FroggerEntrance::Init(Vector2 _pos)
 	m_InsertedCoin = false;
 
 	m_RenderTracker = 1;
+
+	m_CoinTimer = 0.0f;
 }
 
 void FroggerEntrance::Update()
@@ -41,7 +48,7 @@ void FroggerEntrance::Update()
 
 		if (!m_InPositionHorizontal[i]) {
 
-			m_FrogVector[i].Move(Vector2(-1.3f, 0));
+			m_FrogVector[i].Move(Vector2(-70.0f, 0) * TimerModule::GetDelta());
 
 			if (m_FrogVector[i].GetPosition().x <= 140 + (i * 80)) {
 				m_InPositionHorizontal[i] = true;
@@ -61,9 +68,9 @@ void FroggerEntrance::Update()
 
 		if (m_InPositionHorizontal[i] && !m_InPositionVertical[i]) {
 
-			m_FrogVector[i].Move(Vector2(0, -1));
+			m_FrogVector[i].Move(Vector2(0, -70) * TimerModule::GetDelta());
 
-			if (m_FrogVector[i].GetPosition().y == 100) {
+			if (m_FrogVector[i].GetPosition().y <= 100) {
 				m_InPositionVertical[i] = true;
 			}
 
@@ -76,7 +83,7 @@ void FroggerEntrance::Render()
 {
 	for (int i = 0; i < m_FrogVector.size(); ++i) {
 
-		if (m_InPositionVertical[i]) { //check frog position
+		if (m_InPositionVertical[i]) { //check if all frogs are at the top of the screen
 
 			m_LettersVector[i].RenderClippedTexture();
 
@@ -96,7 +103,7 @@ void FroggerEntrance::Render()
 
 				m_RenderedLetters[i] = true;
 
-				SDL_Delay(700);
+				SDL_Delay(700); //wait 700 ms before turning the next frog into a letter
 
 				if (i == 6) {
 					m_FrogAnimationDone = true;
@@ -112,21 +119,19 @@ void FroggerEntrance::Render()
 		}
 	}
 
-	m_Konami.Render(Vector2(220, 520), m_FrogAnimationDone); //render the konami logo when the frog animation is done
+	m_KonamiLogo.Render(Vector2(220, 520), m_FrogAnimationDone); //render the konami logo when the frog animation is done
 
-	if (m_FrogAnimationDone && !m_TextAnimationDone) {
+	if (m_FrogAnimationDone && !m_TextAnimationDone) { //animate the point table
 		
-		m_PointTable.Render(Vector2(220, 180));
+		m_PointTableHandle.Render(Vector2(220, 180));
 		
-		if (m_RenderTracker != 7) {
+		if (m_RenderTracker != 7) { //make sure the render tracker is less than the text that needs to be rendered
 
 			while (m_RenderTracker < m_TextVector.size()) {
 
-				m_TextVector[m_RenderTracker].Render();
-
 				m_RenderTracker++;
 
-				SDL_Delay(800); //have the text appear ~1 second after the previous one
+				SDL_Delay(800); //have the text appear 800 ms after the previous one
 
 				break;
 			}
@@ -137,7 +142,7 @@ void FroggerEntrance::Render()
 			m_RenderTracker = 0;
 		}
 		
-		for (int i = 0; i < m_RenderTracker; ++i) {
+		for (int i = 0; i < m_RenderTracker; ++i) { //render only the text that the render tracker has reached
 			m_TextVector[i].Render();
 		}
 		
@@ -147,18 +152,18 @@ void FroggerEntrance::Render()
 		}
 	}
 
-	if (m_ShowScoreRanking) {
+	if (m_ShowScoreRanking) { //Render scoreboard
 		
-		m_ScoreRanking.Render(Vector2(220, 180));
+		m_ScoreRankingHandle.Render(Vector2(220, 180));
 
 		for (int i = 0; i < m_ScoreRankingVector.size(); ++i) {
 			m_ScoreRankingVector[i].Render();
 		}
 
-		++m_RenderTracker;
+		++m_RenderTracker; //increment to keep track of how many times the screen has updated
 
-		if (m_RenderTracker > 2) { //have the score stay on screen after the screen updates and the previous text disappears
-								  //otherwise the old and new text will be rendered on top of eachother for a short time
+		if (m_RenderTracker > 2) { //have the screen update and clear the point table before rendering the scoreboard
+									//otherwise the text overlaps
 
 			m_ShowScoreRanking = false;
 			m_InsertedCoin = true;
@@ -171,32 +176,27 @@ void FroggerEntrance::Render()
 	
 	if(m_InsertedCoin) {
 
-		++m_RenderTracker;
-
 		m_InsertCoin.Render(Vector2(250, 250));
 		m_FrogsPerPlayer.Render(Vector2(220, 350));
 
-		if (m_RenderTracker > 3) {
+		m_CoinTimer += TimerModule::GetDelta();
 
-			SDL_Delay(3000);
+		if (m_CoinTimer > 7.0f) { //SDL delay doesn't work here since it messes up the entity positions when switching states
 
 			m_InsertedCoin = false;
 
 			StateMachine::switchState(PlayState::GetInstance());
+
 		}
 	}
 	
-}
-
-bool FroggerEntrance::IsAnimationDone()
-{
-	return m_FrogAnimationDone;
 }
 
 void FroggerEntrance::SkipScene()
 {
 	m_InPositionVertical.fill(true);
 	m_RenderedLetters.fill(true);
+
 	m_FrogAnimationDone = true;
 	m_RenderTracker = 0;
 }
@@ -206,8 +206,8 @@ void FroggerEntrance::LoadResources()
 
 	m_LettersVector.resize(7);
 
-	m_LettersVector[0].LoadClippedTexture("frogger_sprites.png", 13, 10, Vector2(140, 90), 32, 32, Vector2(1.5f, 1.5f)); //F
-	m_LettersVector[1].LoadClippedTexture("frogger_sprites.png", 60, 10, Vector2(220, 90), 32, 32, Vector2(1.5f, 1.5f)); //R
+	m_LettersVector[0].LoadClippedTexture("frogger_sprites.png", 13,  10, Vector2(140, 90), 32, 32, Vector2(1.5f, 1.5f)); //F
+	m_LettersVector[1].LoadClippedTexture("frogger_sprites.png", 60,  10, Vector2(220, 90), 32, 32, Vector2(1.5f, 1.5f)); //R
 	m_LettersVector[2].LoadClippedTexture("frogger_sprites.png", 110, 10, Vector2(300, 90), 32, 32, Vector2(1.5f, 1.5f)); //O
 	m_LettersVector[3].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(380, 90), 32, 32, Vector2(1.5f, 1.5f)); //G
 	m_LettersVector[4].LoadClippedTexture("frogger_sprites.png", 157, 10, Vector2(460, 90), 32, 32, Vector2(1.5f, 1.5f)); //G
@@ -226,16 +226,48 @@ void FroggerEntrance::LoadResources()
 
 	m_ScoreRankingVector.resize(5);
 
-	m_ScoreRankingVector[0].Load("Emulogic.ttf", Vector2(220, 240), 25, "1 st  04630 pts", Colors::WHITE);
-	m_ScoreRankingVector[1].Load("Emulogic.ttf", Vector2(220, 290), 25, "2 nd  02050 pts", Colors::WHITE);
-	m_ScoreRankingVector[2].Load("Emulogic.ttf", Vector2(220, 340), 25, "3 rd  01970 pts", Colors::WHITE);
-	m_ScoreRankingVector[3].Load("Emulogic.ttf", Vector2(220, 390), 25, "4 th  01580 pts", Colors::PURPLE);
-	m_ScoreRankingVector[4].Load("Emulogic.ttf", Vector2(220, 440), 25, "5 th  01270 pts", Colors::WHITE);
+	std::ifstream Input;
 
-	m_PointTable.Load("Emulogic.ttf", 24, "--Point Table--", Colors::WHITE);
-	m_Konami.Load("Emulogic.ttf", 24, "Konami  ©  1981", Colors::WHITE);
+	Input.open("src/Frogger/Score.txt");
 
-	m_ScoreRanking.Load("Emulogic.ttf", 24, "Score ranking", Colors::YELLOW);
+	if (!Input.is_open() || !Input.good()) {
+		std::cout << "Cannot read from file" << std::endl;
+	}
+
+	std::vector<int> Data;
+
+	int Score;
+
+	while (!Input.eof()) {
+
+		Input >> Score;
+		Data.push_back(Score);
+	}
+
+	Input.close();
+
+	std::sort(Data.rbegin(), Data.rend()); //sort in descending order
+
+	for (int i = 0; i < m_ScoreRankingVector.size(); ++i) {
+
+		if (i == 0) {
+			m_ScoreRankingVector[i].Load("Emulogic.ttf", Vector2(220, 240 + (i * 50)), 25, "1 st  " + std::to_string(Data[i]) + " pts", Colors::PURPLE);
+		}
+		else if (i == 1) {
+			m_ScoreRankingVector[i].Load("Emulogic.ttf", Vector2(220, 240 + (i * 50)), 25, "2 nd  " + std::to_string(Data[i]) + " pts", Colors::WHITE);
+		}
+		else if (i == 2) {
+			m_ScoreRankingVector[i].Load("Emulogic.ttf", Vector2(220, 240 + (i * 50)), 25, "3 rd  " + std::to_string(Data[i]) + " pts", Colors::WHITE);
+		}
+		else {
+			m_ScoreRankingVector[i].Load("Emulogic.ttf", Vector2(220, 240 + (i * 50)), 25, std::to_string(i + 1) + " th  " + std::to_string(Data[i]) + " pts", Colors::WHITE);
+		}
+	}
+
+	m_PointTableHandle.Load("Emulogic.ttf", 24, "--Point Table--", Colors::WHITE);
+	m_KonamiLogo.Load("Emulogic.ttf", 24, "Konami  ©  1981", Colors::WHITE);
+
+	m_ScoreRankingHandle.Load("Emulogic.ttf", 24, "Score ranking", Colors::YELLOW);
 
 	m_InsertCoin.Load("Emulogic.ttf", 24, "Insert coin", Colors::GREEN);
 	m_FrogsPerPlayer.Load("Emulogic.ttf", 24, "3 frogs per player", Colors::YELLOW);
@@ -244,13 +276,39 @@ void FroggerEntrance::LoadResources()
 
 void FroggerEntrance::Clean()
 {
+	for (auto& Frogs : m_FrogVector) {
+		Frogs.Clean();
+	}
+
 	m_FrogVector.clear();
+	m_FrogVector.shrink_to_fit();
+
+	for (auto& Text : m_TextVector) {
+		Text.FreeFont();
+	}
+
 	m_TextVector.clear();
+	m_TextVector.shrink_to_fit();
+
+	for (auto& Score : m_ScoreRankingVector) {
+		Score.FreeFont();
+	}
+
+	m_ScoreRankingVector.clear();
+	m_ScoreRankingVector.shrink_to_fit();
+
 	m_LettersVector.clear();
+	m_LettersVector.shrink_to_fit();
 
 	m_InPositionHorizontal.fill(false);
 	m_InPositionVertical.fill(false);
 	m_RenderedLetters.fill(false);
+
+	m_PointTableHandle.FreeFont();
+	m_KonamiLogo.FreeFont();
+	m_ScoreRankingHandle.FreeFont();
+	m_InsertCoin.FreeFont();
+	m_FrogsPerPlayer.FreeFont();
 
 	m_FrogAnimationDone = false;
 	m_RenderTracker = 1;
