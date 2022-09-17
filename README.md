@@ -25,6 +25,10 @@ The frog animation sequence can be skipped with the ENTER key.
 
 ![splash](https://user-images.githubusercontent.com/87091726/190869400-e96e6cbf-0dbc-44b6-92a5-66b3a17d4b4b.gif)
 
+# Other
 
+Youtube Video with gameplay:
+
+https://www.youtube.com/watch?v=SZfg9jRT7S0
 
 This is for educational purposes only!
