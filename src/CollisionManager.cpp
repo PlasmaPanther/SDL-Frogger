@@ -215,17 +215,31 @@ bool CollisionManager::CheckCollison(Object2D* colliderA, const std::string& ide
 
 bool CollisionManager::CheckCollison(Object2D* colliderA, const std::string& identifierA, Shape2D* colliderB, const std::string& identifierB)
 {
-    //convert Shape2D object to Object2D
-    Object2D* ColliderB = static_cast<Object2D*>(colliderB);
 
-    return CheckCollison(colliderA, identifierA, ColliderB, identifierB);
+    if (colliderB != nullptr) {
+
+        //convert Shape2D object to Object2D
+        Object2D* ColliderB = static_cast<Object2D*>(colliderB);
+
+        return CheckCollison(colliderA, identifierA, ColliderB, identifierB);
+
+    }
+
+    return false;
 }
 
 bool CollisionManager::CheckCollison(Shape2D* colliderA, const std::string& identifierA, Shape2D* colliderB, const std::string& identifierB)
 {
-    Object2D* ColliderB = static_cast<Object2D*>(colliderB);
+    if (colliderB != nullptr) {
 
-    return CheckCollison(colliderA, identifierA, ColliderB, identifierB);
+        //convert Shape2D object to Object2D
+        Object2D* ColliderB = static_cast<Object2D*>(colliderB);
+
+        return CheckCollison(colliderA, identifierA, ColliderB, identifierB);
+
+    }
+
+    return false;
 }
 
 bool CollisionManager::CheckCircleCollision(Shape2D* colliderA, const std::string& identifierA, Shape2D* colliderB, const std::string& identifierB)
@@ -258,9 +272,16 @@ bool CollisionManager::CheckCircleCollision(Shape2D* colliderA, const std::strin
 
 bool CollisionManager::CheckCircleToRectCollision(Shape2D* colliderA, const std::string& identifierA, Shape2D* colliderB, const std::string& identifierB)
 {
-    Object2D* ColliderB = static_cast<Object2D*>(colliderB);
 
-    return CheckCircleToRectCollision(colliderA, identifierA, ColliderB, identifierB);
+    if (colliderB != nullptr) {
+
+        Object2D* ColliderB = static_cast<Object2D*>(colliderB);
+
+        return CheckCircleToRectCollision(colliderA, identifierA, ColliderB, identifierB);
+
+    }
+
+    return false;
 }
 
 bool CollisionManager::CheckCircleToRectCollision(Shape2D* colliderA, const std::string& identifierA, Object2D* colliderB, const std::string& identifierB)
